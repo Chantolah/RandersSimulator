@@ -1,0 +1,55 @@
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+
+public class Player : MonoBehaviour
+{
+    public float movementSpeed = 10.0f;
+    public float rotateSpeed = 30.0f;
+
+    public int jumpHeight = 400;
+    public float sprintMultiplier = 1.0f;
+
+    private int playerLives = 3;
+    public Text playerLivesText;
+
+    private float playerStamina = 100.0f;
+    public Text playerStaminaText;
+
+    bool canJump = true;
+
+
+    void Start()
+    {
+        playerLives = 3;
+    }
+
+    void Update()
+    {
+      
+    }
+
+    void MovePlayer()
+    {
+        float x = Input.GetAxis("Vertical") * Time.deltaTime * movementSpeed;
+        float z = Input.GetAxis("Horizontal") * Time.deltaTime * movementSpeed;
+        transform.Translate(0, 0, x * sprintMultiplier);
+        transform.Translate(z, 0, 0);
+
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        {
+            rigidbody.AddForce(Vector3.up * jumpHeight);
+            canJump = false;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && playerStamina >= 3.0f)
+        {
+            sprintMultiplier = 1.5f;
+        }
+        else
+        {
+            sprintMultiplier = 1.0f;
+        }
+    }
+
+}	
